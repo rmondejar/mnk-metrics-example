@@ -1,0 +1,17 @@
+<configuration>
+
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+        <jsonFormatter
+                class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+            <prettyPrint>true</prettyPrint>
+        </jsonFormatter>
+        <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+    </layout>
+</appender>
+
+<root level="info">
+    <appender-ref ref="STDOUT" />
+</root>
+
+</configuration>

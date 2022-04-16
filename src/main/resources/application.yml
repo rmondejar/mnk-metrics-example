@@ -1,0 +1,17 @@
+endpoints:
+  prometheus:
+    sensitive: false
+micronaut:
+  application:
+    name: metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+netty:
+  default:
+    allocator:
+      max-order: 3
