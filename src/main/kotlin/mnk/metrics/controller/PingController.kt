@@ -19,7 +19,7 @@ open class PingController {
     @Get("/{name}")
     fun ping(@NotBlank name: String): String {
         meterRegistry
-            .counter("rest.ping", "controller", "index", "action", "ping")
+            .counter("ping", "param", name)
             .increment()
         logger.info("{}", mapOf("name" to name))
         return "pong $name"

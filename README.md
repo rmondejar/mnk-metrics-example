@@ -1,6 +1,8 @@
-## Testing Micronaut Metrics
+## Monitoring Micronaut 3 with Prometheus and Grafana
 
-Guidelines to test our microservice locally
+Guidelines to monitor our microservices, including custom metrics
+
+Story:  [First Steps in Monitoring Micronaut apps](https://ruuben.medium.com/monitoring-micronaut-applications-with-prometheus-and-grafana-657f75207f51)
 
 ### Setup
 
@@ -101,7 +103,10 @@ Now we are ready to run everything and visualize our data,
 #### Microservice
 If it is not alive, let's run again our microservice:
 
-```./gradlew run```
+```
+./gradlew run
+curl http://localhost:8080/prometheus
+```
 
 #### Prometheus
 Then, let's start our prometheus and check the targets
@@ -115,24 +120,23 @@ Our ping service should be there and UP:
 Next is to check some metrics in the graph tab
 ```
 open http://localhost:9090/graph
-    * search jvm_threads_states_threads)
-    * search rest_ping_total)
+    * search jvm_threads_states_threads
+    * search rest_ping_total
 ```
 #### Grafana
 Finally, we need to run Grafana locally too
 ```
 brew services start grafana
 open http://localhost:3000 
-    * set user / pwd to admin
+    * sign in with user / pwd as `admin`
 ```
 
 Next, let's create a new data source for Prometheus
 ```
 open http://localhost:3000/datasources/new
-    * set URL to http://localhost:9090
 ```
 
-Then, first to visualize http successful calls to our microservice
+Then, to visualize http successful calls to our microservice
 we need to create a board, and a new panel with the following query
 
 ```
@@ -140,16 +144,18 @@ open http://localhost:3000/dashboard/new
     * create new board
     * add panel
     * set title to "HTTP Server Success"
-    * metrics browser > sum without (instance,job,exception) 
-        (increase(http_server_requests_seconds_count{status=~"2.."}[1m]))
+    * metrics browser > sum(increase(
+                        http_server_requests_seconds_count
+                        {status=~”2..”, uri!=”/prometheus”, 
+                        uri!=”/metrics”}[1m]))
 ```
 
-Lastly to visualize our custom metric counter, we need a new panel
-and add another query
+And to visualize our custom metric counter, we need a new panel, 
+that could be a heatmap for example:
 
 ```
 open http://localhost:3000/dashboard/new
     * add panel
-    * set title to "Ping Counter"
-    * metrics browser > sum(increase(rest_ping_total[1m]))
+    * set title to "Ping Calls"
+    * metrics browser > sum(increase(ping_total[1m]))
 ```

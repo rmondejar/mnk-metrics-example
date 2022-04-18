@@ -46,7 +46,7 @@ open class PingControllerTest {
         // then: 'expected metrics are found'
         assertTrue(metrics.contains("jvm.memory.max"))
         assertTrue(metrics.contains("system.cpu.usage"))
-        assertFalse(metrics.contains("rest.ping"))
+        assertFalse(metrics.contains("ping"))
     }
 
     @Test
@@ -70,7 +70,7 @@ open class PingControllerTest {
         assertTrue(body.contains("jvm"))
         assertTrue(body.contains("executor"))
         assertTrue(body.contains("http"))
-        assertFalse(body.contains("rest_ping"))
+        assertFalse(body.contains("ping"))
     }
 
     @Test
@@ -114,7 +114,7 @@ open class PingControllerTest {
         // then: 'all the metrics are found'
         assertTrue(metrics.contains("jvm.memory.max"))
         assertTrue(metrics.contains("system.cpu.usage"))
-        assertTrue(metrics.contains("rest.ping"))
+        assertTrue(metrics.contains("ping"))
     }
 
     @Test
@@ -138,6 +138,6 @@ open class PingControllerTest {
         assertTrue(body.contains("jvm"))
         assertTrue(body.contains("executor"))
         assertTrue(body.contains("http"))
-        assertTrue(body.contains("rest_ping"))
+        assertTrue(body.contains("ping"))
     }
 }
